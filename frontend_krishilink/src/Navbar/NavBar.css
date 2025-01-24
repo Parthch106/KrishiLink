@@ -1,0 +1,141 @@
+/* General Styling */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+  background-color: #FFF7D1; /* Soft grey for contrast */
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.nav-logo {
+  color: #f5b921; /* Matching with your accent color */
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav-logo .icon {
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links {
+  color: #333;
+  text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links:hover {
+  color: #fff; /* White text on hover */
+  background-color: #f5b921; /* Accent color background on hover */
+  border-radius: 5px;
+}
+
+.nav-item {
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
+.nav-item .active {
+  color: #fff;
+  background-color: #f5b921; /* Active state background */
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  border-bottom: none; /* Remove underline for active links */
+}
+
+.nav-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #333;
+}
+
+.button2 {
+  background-color: #f5b921;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button2:hover {
+  background-color: #d4a618;
+}
+
+@media screen and (max-width: 960px) {
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: -100%;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff; /* White background for mobile menu */
+    border-top: 1px solid #ddd;
+    transition: all 0.5s ease;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-links {
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+
+  .nav-icon {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .nav-logo {
+    font-size: 1.6rem;
+  }
+
+  .button2 {
+    margin-right: 0;
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { NavLink , useNavigate } from "react-router-dom";
-import { handleSuccess } from '../utils';
+import { NavLink, useNavigate } from "react-router-dom";
+import { handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
 import "./NavBar.css";
 
@@ -8,84 +8,70 @@ function NavBar() {
   const [click, setClick] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = (e) => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('loggedInUser');
-    handleSuccess('User Loggedout');
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedInUser");
+    handleSuccess("User Logged out");
+
     setTimeout(() => {
-        navigate('/login');
-    }, 1000)
-}
+      navigate("/login");
+    }, 1000);
+  };
 
   const handleClick = () => setClick(!click);
+
   return (
     <>
       <nav className="navbar">
         <div className="nav-container">
-
-          <ul className={click ? "nav-menu active" : "nav-menu"}>
+          <ul className={`nav-menu ${click ? "active" : ""}`}>
             <li className="nav-item">
-              <NavLink
-                exact
-                to="/home"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
+              <NavLink to="/" className="nav-links" onClick={handleClick}>
                 Home
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                exact
-                to="/desc"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-               Page2
+              <NavLink to="/register" className="nav-links" onClick={handleClick}>
+                Farmer Registration
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                exact
-                to="/man"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Page3
+              <NavLink to="/products" className="nav-links" onClick={handleClick}>
+                Farmer Products
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                exact
-                to="/ai"
-                activeClassName="active"
-                className="nav-links"
-                onClick={handleClick}
-              >
-                Page4
+              <NavLink to="/employee" className="nav-links" onClick={handleClick}>
+                Employee Verification
               </NavLink>
             </li>
             <li className="nav-item">
-            <div id="logout"><button className="button2" onClick={handleLogout}>Logout</button></div>
+              <NavLink to="/marketplace" className="nav-links" onClick={handleClick}>
+                Marketplace
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/farmer-dashboard" className="nav-links" onClick={handleClick}>
+                Farmer Dashboard
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/business-dashboard" className="nav-links" onClick={handleClick}>
+                Business Dashboard
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <button className="button2" onClick={handleLogout}>
+                Logout
+              </button>
             </li>
           </ul>
-          <div className="nav-icon" onClick={handleClick}>
-            {/* <i className={click ? "fas fa-times" : "fas fa-bars"}></i> */}
 
-            {click ? (
-              <span className="icon">
-                {" "}
-              </span>
-            ) : (
-              <span className="icon">
-                
-              </span>
-            )}
+          <div className="nav-icon" onClick={handleClick}>
+            {click ? <span className="icon">✖</span> : <span className="icon">☰</span>}
           </div>
-          <ToastContainer/>
+
+          <ToastContainer />
         </div>
       </nav>
     </>

@@ -339,7 +339,7 @@ function Signup() {
             <div className="mt-8 text-center text-sm text-gray-600">
               Already registered?{" "}
               <Link
-                to={'/signin'}
+                to={'/login'}
                 className="font-medium text-green-600 hover:text-green-500"
               >
                 Sign in here

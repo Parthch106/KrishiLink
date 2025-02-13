@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
-// import "./NavBar.css";
+import "./NavBar.css";
 
 function NavBar() {
   const [click, setClick] = useState(false);

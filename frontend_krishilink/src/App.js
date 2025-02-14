@@ -11,6 +11,7 @@ import Marketplace from "./Pages/Marketplace";
 import FarmerDashboard from "./Pages/FarmerDashboard";
 import BusinessDashboard from "./Pages/BusinessDashboard";
 import ForgotPassword from './Pages/ForgotPassword';
+import FarmerProfile from './Pages/FarmerProfile';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,6 +33,7 @@ function App() {
         <Route path="/register" element={<FarmerRegistration />} />
         <Route path="/products" element={<FarmerProducts />} />
         <Route path="/employee" element={<EmployeeVerification />} />
+        <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
         <Route path="/business-dashboard" element={<BusinessDashboard />} />

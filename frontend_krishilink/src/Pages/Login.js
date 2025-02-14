@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+//import { FaEnvelope, FaLock } from "react-icons/fa";
 import { Tractor } from "lucide-react";
 import { TextField } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,11 +38,20 @@ function Login() {
         body: JSON.stringify(loginInfo),
       });
       const result = await response.json();
-      const { success, message, jwtToken, name, error } = result;
+      console.log(result);
+      const { success, message, jwtToken, firstName, lastName, email, phone, address, farmsize, experience, error } = result;
       if (success) {
         handleSuccess(message);
         localStorage.setItem("token", jwtToken);
-        localStorage.setItem("loggedInUser", name);
+        localStorage.setItem("loggedInUserfn", firstName);
+        localStorage.setItem("loggedInUserln", lastName);
+        localStorage.setItem("loggedInUseremail", email );
+        localStorage.setItem("loggedInUserphone", phone);
+        localStorage.setItem("loggedInUseraddress", address);
+        localStorage.setItem("loggedInUserexp", experience);
+        console.log(localStorage);
+
+
         setTimeout(() => {
           navigate("/home");
         }, 1000);

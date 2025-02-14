@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { User, MapPin, Phone, Mail, Briefcase, LogOut, Package } from 'lucide-react';
+import { MapPin, Package, Star, User, Box, Mail, Phone, Briefcase } from "lucide-react";
+import { handleError } from '../utils';
+import NavBar from '../Navbar/NavBar'
+import Footer from '../Footer/Footer'
 
 function App() {
   const [userfn, setuserfn] = useState('');
@@ -11,22 +14,64 @@ function App() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setuserfn(localStorage.getItem('loggedInUserfn') || 'John');
-    setuserln(localStorage.getItem('loggedInUserln') || 'Doe');
-    setuseremail(localStorage.getItem('loggedInUsermail') || 'john@example.com');
-    setuserphone(localStorage.getItem('loggedInUserphone') || '+1 234 567 890');
-    setuseraddress(localStorage.getItem('loggedInUseraddress') || 'New York, USA');
-    setuserexp(localStorage.getItem('loggedInUserexp') || '5 years');
+    setuserfn(localStorage.getItem('loggedInUserfn'));
+    setuserln(localStorage.getItem('loggedInUserln'));
+    setuseremail(localStorage.getItem('loggedInUsermail'));
+    setuserphone(localStorage.getItem('loggedInUserphone'));
+    setuseraddress(localStorage.getItem('loggedInUseraddress'));
+    setuserexp(localStorage.getItem('loggedInUserexp'));
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('loggedInUser');
-    // Note: Navigation and toast functionality removed as they require additional setup
-  };
+//   const fetchProducts = async () => {
+//     try {
+//         const url = "http://localhost:8080/farmers";
+//         const headers = {
+//             headers: {
+//                 'Authorization': localStorage.getItem('token')
+//             }
+//         }
+//         const response = await fetch(url, headers);
+//         const result = await response.json();
+//         console.log(result);
+//         setProducts(result);
+//     } catch (err) {
+//         handleError(err);
+//     }
+// }
+// useEffect(() => {
+//     fetchProducts()
+// }, [])
+
+      const fetchProducts = async () => {
+        try {
+            const userId = localStorage.getItem('loggedInUserID'); 
+            if (!userId) {
+                console.error("User ID not found");
+                return;
+            }
+
+            const url = `http://localhost:8080/farmers?userId=${userId}`; 
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            };
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            console.log(result);
+            setProducts(result);
+        } catch (err) {
+            handleError(err);
+        }
+        };
+
+        useEffect(() => {
+            fetchProducts();
+        }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">
+      <NavBar></NavBar>
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -44,13 +89,7 @@ function App() {
                 <h1 className="text-3xl font-bold text-gray-900">
                   {userfn} {userln}
                 </h1>
-                <button
-                  onClick={handleLogout}
-                  className="mt-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                >
-                  <LogOut size={16} className="mr-2" />
-                  Logout
-                </button>
+                
               </div>
             </div>
 
@@ -70,7 +109,7 @@ function App() {
               </div>
               <div className="flex items-center space-x-3">
                 <Briefcase className="text-gray-400" />
-                <span className="text-gray-600">{userexp} Experience</span>
+                <span className="text-gray-600">{userexp} Years of Farming Experience</span>
               </div>
             </div>
           </div>
@@ -84,16 +123,50 @@ function App() {
               <h2 className="text-xl font-semibold text-gray-900">Products</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {products && products.map((item, index) => (
-                <div key={index} className="bg-gray-50 rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900">{item.name}</h3>
-                  <p className="text-gray-600">${item.price}</p>
+            {products.map((product) => (
+              <div
+                key={product._id}
+                className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover"
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900">{product.name}</h3>
+                  <p className="text-sm text-gray-500">{product.category}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-lg font-bold text-green-600">
+                     ₹{product.price}/{product.unit}
+                    </span>
+                    <span className="flex items-center text-sm text-gray-600">
+                      <Star className="h-4 w-4 text-yellow-400 mr-1" />
+                      {product.rating}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between text-sm text-gray-600">
+                    <span className="flex items-center">
+                      <User className="h-4 w-4 mr-1" />
+                      {product.farmer}
+                    </span>
+                    <span className="flex items-center">
+                      <Box className="h-4 w-4 mr-1" />
+                      Stock: {product.stock}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm text-gray-600 flex items-center">
+                    <MapPin className="h-4 w-4 mr-1" />
+                    {product.location}
+                  </p>
                 </div>
-              ))}
+              </div>
+            ))}
             </div>
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 }

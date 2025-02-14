@@ -31,16 +31,10 @@
 
 // export default Home;
 
-import React, { useEffect, useState } from 'react';
 import {
-  Sprout,
   ShoppingBasket,
   TrendingUp,
   Truck,
-  Facebook,
-  Twitter,
-  Instagram,
-  Youtube,
   Leaf,
   Users,
   Shield,
@@ -56,13 +50,7 @@ import Footer from '../Footer/Footer';
 // import { products } from './data/products';
 
 function Home() {
-  const [loggedInUser, setLoggedInUser] = useState("");
-
-  // Fetch the saved data and logged-in user
-  useEffect(() => {
-    setLoggedInUser(localStorage.getItem("loggedInUser"));
-  }, []);
-  
+ 
   return (
     <div className="min-h-screen bg-green-600">
       {/* Hero Section */}

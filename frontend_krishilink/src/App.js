@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes , PrivateRoute } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import RefrshHandler from './RefrshHandler';
 import { useState } from 'react';
 import Login from './Pages/Login';

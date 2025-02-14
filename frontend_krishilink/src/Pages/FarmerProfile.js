@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { handleSuccess, handleError } from '../utils';
 import { User, MapPin, Phone, Mail, Briefcase, LogOut, Package } from 'lucide-react';
+import NavBar from '../Navbar/NavBar';
+import Footer from '../Footer/Footer'
 
 function App() {
   const [userfn, setuserfn] = useState('');
@@ -10,22 +14,53 @@ function App() {
   const [userexp, setuserexp] = useState('');
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    setuserfn(localStorage.getItem('loggedInUserfn') || 'John');
-    setuserln(localStorage.getItem('loggedInUserln') || 'Doe');
-    setuseremail(localStorage.getItem('loggedInUsermail') || 'john@example.com');
-    setuserphone(localStorage.getItem('loggedInUserphone') || '+1 234 567 890');
-    setuseraddress(localStorage.getItem('loggedInUseraddress') || 'New York, USA');
-    setuserexp(localStorage.getItem('loggedInUserexp') || '5 years');
-  }, []);
+  const navigate = useNavigate();
+    useEffect(() => {
+      setuserfn(localStorage.getItem('loggedInUserfn') || 'John');
+      setuserln(localStorage.getItem('loggedInUserln') || 'Doe');
+      setuseremail(localStorage.getItem('loggedInUsermail') || 'john@example.com');
+      setuserphone(localStorage.getItem('loggedInUserphone') || '+1 234 567 890');
+      setuseraddress(localStorage.getItem('loggedInUseraddress') || 'New York, USA');
+      setuserexp(localStorage.getItem('loggedInUserexp') || '5 years');
+    }, [])
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('loggedInUser');
-    // Note: Navigation and toast functionality removed as they require additional setup
-  };
+    const handleLogout = (e) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('loggedInUserfn');
+      localStorage.removeItem('loggedInUserln');
+      localStorage.removeItem('loggedInUseremail');
+      localStorage.removeItem('loggedInUserphone');
+      localStorage.removeItem('loggedInUseraddress');
+      localStorage.removeItem('loggedInUserexp');
+      handleSuccess("User Logged out");
+        setTimeout(() => {
+            navigate('/login');
+        }, 1000)
+    }
+
+    const fetchProducts = async () => {
+        try {
+            const url = "http://localhost:8080/products";
+            const headers = {
+                headers: {
+                    'Authorization': localStorage.getItem('token')
+                }
+            }
+            const response = await fetch(url, headers);
+            const result = await response.json();
+            console.log(result);
+            setProducts(result);
+        } catch (err) {
+            handleError(err);
+        }
+    }
+    useEffect(() => {
+        fetchProducts()
+    }, [])
 
   return (
+    <div>
+      <NavBar></NavBar>
     <div className="min-h-screen bg-gray-100">
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         {/* Profile Header */}
@@ -94,6 +129,8 @@ function App() {
           </div>
         </div>
       </div>
+    </div>
+    <Footer></Footer>
     </div>
   );
 }

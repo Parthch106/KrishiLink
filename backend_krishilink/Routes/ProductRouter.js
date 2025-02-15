@@ -15,9 +15,8 @@ router.post('/', ensureAuthenticated, async (req, res) => {
         console.error("Error saving product:", error);
         res.status(500).json({ 
             message: "Error adding product", 
-            error: error.message,  // <-- Send real error message
-            stack: error.stack      // <-- Send error details
-        });
+            error: error.message,  
+            stack: error.stack             });
     }
 });
 

@@ -16,7 +16,7 @@ router.post('/', ensureAuthenticated, async (req, res) => {
         res.status(500).json({ 
             message: "Error adding product", 
             error: error.message,  
-            stack: error.stack             });
+            stack: error.stack});
     }
 });
 

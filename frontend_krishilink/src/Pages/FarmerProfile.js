@@ -4,7 +4,6 @@ import { handleError } from '../utils';
 import NavBar from '../Navbar/NavBar';
 import Footer from '../Footer/Footer';
 
-
 function App() {
   const [userfn, setuserfn] = useState('');
   const [userln, setuserln] = useState('');
@@ -46,14 +45,11 @@ function App() {
     }
   };
 
-
   useEffect(() => {
     fetchProducts();
   }, []);
 
   return (
-    <div>
-      <NavBar></NavBar>
     <div className="min-h-screen bg-gray-100">
       <NavBar></NavBar>
       <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
@@ -148,8 +144,6 @@ function App() {
         </div>
       </div>
       <Footer></Footer>
-    </div>
-    <Footer></Footer>
     </div>
   );
 }

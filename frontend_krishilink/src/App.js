@@ -12,6 +12,7 @@ import FarmerDashboard from "./Pages/FarmerDashboard";
 import BusinessDashboard from "./Pages/BusinessDashboard";
 import ForgotPassword from './Pages/ForgotPassword';
 import FarmerProfile from './Pages/FarmerProfile';
+import EmployeeApproval from './Pages/EmployeeApproval';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,6 +36,7 @@ function App() {
         <Route path="/employee" element={<EmployeeVerification />} />
         <Route path="/profile" element={<FarmerProfile />} />
         <Route path="/marketplace" element={<Marketplace />} />
+        <Route path="/employeeaprroval" element={<EmployeeApproval />} />
         <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
         <Route path="/business-dashboard" element={<BusinessDashboard />} />
       </Routes>

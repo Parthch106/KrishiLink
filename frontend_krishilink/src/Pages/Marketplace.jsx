@@ -13,7 +13,7 @@ const Marketplace = () => {
 
   const fetchProducts = async () => {
     try {
-      const url = "http://localhost:8080/products";
+      const url = "http://localhost:8080/products/true";
       const response = await fetch(url, {
         headers: { Authorization: localStorage.getItem('token') }
       });
@@ -24,6 +24,7 @@ const Marketplace = () => {
 
       const result = await response.json();
       setProducts(result);
+      console.log('products',result);
     } catch (err) {
       console.error("Error fetching products:", err);
     }

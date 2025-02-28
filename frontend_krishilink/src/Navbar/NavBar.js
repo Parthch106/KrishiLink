@@ -39,14 +39,11 @@ function NavBar() {
         <NavLink to="/marketplace" className="hover:text-green-200">
           MarketPlace
         </NavLink>
-        <NavLink to="#" className="hover:text-green-200">
-          About
-        </NavLink>
-        <NavLink to="#" className="hover:text-green-200">
-          Contact
+        <NavLink to="/employeeaprroval" className="hover:text-green-200">
+          employeeaprroval
         </NavLink>
         <NavLink to="/profile" className="hover:text-green-200">
-          Profile
+          Profile & Dashboard
         </NavLink>
         <NavLink className="hover:text-green-200" onClick={handleLogout}>
           Logout

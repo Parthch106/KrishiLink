@@ -31,4 +31,16 @@ router.get('/', ensureAuthenticated, async (req, res) => {
     }
 });
 
+router.get('/true', ensureAuthenticated,  async (req, res) => {
+    try {
+        const approved = req.query.approved = "true";
+        const products = await Product.find({ approved });
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error", error });
+    }
+});
+
+
 module.exports = router;

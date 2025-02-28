@@ -10,7 +10,8 @@ const ProductSchema = new mongoose.Schema({
     unit: { type: String, required: true },
     stock: { type: Number, required: true },
     rating: { type: Number, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true } 
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true } ,
+    approved: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model('Product', ProductSchema);

@@ -24,6 +24,9 @@ const EmployeeApproval = () => {
       const result = await response.json();
       console.log("API Response:", result);
 
+
+      
+
       if (Array.isArray(result)) {
         setPendingProducts(result);
         const uniqueCategories = [...new Set(result.map(product => product.category))];

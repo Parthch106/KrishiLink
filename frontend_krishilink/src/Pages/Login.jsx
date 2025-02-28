@@ -39,15 +39,17 @@ function Login() {
       });
       const result = await response.json();
       console.log(result);
-      const { success, message, jwtToken, firstName, lastName, email, phone, address, farmsize, experience, error } = result;
+      const { success, message, jwtToken, id,  firstName, lastName, email, phone, address, farmsize, experience, error } = result;
       if (success) {
         handleSuccess(message);
         localStorage.setItem("token", jwtToken);
+        localStorage.setItem("loggedInUserID", id);
         localStorage.setItem("loggedInUserfn", firstName);
         localStorage.setItem("loggedInUserln", lastName);
         localStorage.setItem("loggedInUseremail", email );
         localStorage.setItem("loggedInUserphone", phone);
         localStorage.setItem("loggedInUseraddress", address);
+        localStorage.setItem("loggedInUserfarmsize", farmsize);
         localStorage.setItem("loggedInUserexp", experience);
         console.log(localStorage);
 

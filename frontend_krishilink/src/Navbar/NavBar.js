@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { handleSuccess } from "../utils";
 import { ToastContainer } from "react-toastify";
@@ -9,7 +9,12 @@ function NavBar() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUserfn");
+    localStorage.removeItem("loggedInUserln");
+    localStorage.removeItem("loggenInUseremail");
+    localStorage.removeItem("loggedInUseraddress");
+    localStorage.removeItem("loggedInUserexp");
+    localStorage.removeItem("loggedInUserphone");
     handleSuccess("User Logged out");
 
     setTimeout(() => {
@@ -29,16 +34,16 @@ function NavBar() {
           Home
         </NavLink>
         <NavLink to="/products" className="hover:text-green-200">
-          Products
+          Add Products
         </NavLink>
-        <NavLink to="/about" className="hover:text-green-200">
-          About
+        <NavLink to="/marketplace" className="hover:text-green-200">
+          MarketPlace
         </NavLink>
-        <NavLink to="/contact" className="hover:text-green-200">
-          Contact
+        <NavLink to="/employeeaprroval" className="hover:text-green-200">
+          employeeaprroval
         </NavLink>
         <NavLink to="/profile" className="hover:text-green-200">
-          Profile
+          Profile & Dashboard
         </NavLink>
         <NavLink className="hover:text-green-200" onClick={handleLogout}>
           Logout

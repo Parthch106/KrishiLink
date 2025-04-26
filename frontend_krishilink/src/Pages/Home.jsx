@@ -73,13 +73,13 @@ function Home() {
                 className="bg-white text-green-700 px-8 py-4 rounded-full font-semibold hover:bg-green-50 transition-colors text-lg"
                 to={"/marketplace"}
               >
-                Start Shopping
+                <span className="text-black">Start Shopping</span>
               </Link>
               <Link
                 className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-colors text-lg"
                 to={"/signup"}
               >
-                Join as Farmer
+                <span className="text-white">Join as Farmer</span>
               </Link>
             </div>
           </div>

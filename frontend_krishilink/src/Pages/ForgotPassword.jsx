@@ -1,21 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { Mail, ArrowRight } from "lucide-react";
 import { TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  useEffect(() => {
-    document.body.style.backgroundColor = "#dcfce7";
-  });
+  // const { isAuthenticated, isLoading } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitted(true);
-    console.log("Reset password requested for:", email);
+    setError("");
+    setIsProcessing(true);
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/auth/sendresetpasswordlink`,
+        { email },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setIsSubmitted(true);
+    } catch (error) {
+      if (error.response.status === 404) {
+        setError("User with this email is not registered");
+      } else {
+        setError("Something went wrong, Please try again later");
+      }
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // } else if (isAuthenticated) {
+  //   navigate("/");
+  // }
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -53,23 +81,45 @@ function ForgotPassword() {
                     </p>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <TextField
-                      required
-                      label="Email Address"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      sx={{ width: "100%" }}
-                    />
+                  <form onSubmit={handleSubmit} className="space-y-3">
+                    <div>
+                      <TextField
+                        required
+                        label="Email Address"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        sx={{ width: "100%" }}
+                      />
+                    </div>
+                    {error && (
+                      <div className="text-red-500 text-sm mb-4">{error}</div>
+                    )}
 
-                    <button
-                      type="submit"
-                      className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
-                    >
-                      Send Reset Link
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </button>
+                    <div>
+                      {isProcessing ? (
+                        <button
+                          type="submit"
+                          disabled
+                          className="w-full py-1 px-4 bg-green-600 opacity-50 text-white font-medium rounded-lg"
+                        >
+                          <img
+                            src="./loading-icon.svg"
+                            alt="Loading Icon"
+                            className="w-10 h-10 inline"
+                          />
+                          Please Wait
+                        </button>
+                      ) : (
+                        <button
+                          type="submit"
+                          className="w-full flex justify-center items-center py-3 px-4 cursor-pointer border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                        >
+                          Send Reset Link
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
                   </form>
                 </>
               ) : (
@@ -89,7 +139,7 @@ function ForgotPassword() {
                     Didn't receive the email? Check your spam folder or
                     <button
                       onClick={() => setIsSubmitted(false)}
-                      className="text-green-600 hover:text-green-500 font-medium ml-1"
+                      className="text-green-600 hover:text-green-500 font-medium ml-1 cursor-pointer"
                     >
                       try again
                     </button>
@@ -101,7 +151,7 @@ function ForgotPassword() {
             <div className="mt-8 text-center text-sm text-gray-600">
               Remember your password?{" "}
               <Link
-                to={'/login'}
+                to={"/login"}
                 className="font-medium text-green-600 hover:text-green-500"
               >
                 Sign in here

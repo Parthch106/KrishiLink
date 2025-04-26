@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, SlidersHorizontal, Star, User, Box, MapPin } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 import NavBar from '../Navbar/NavBar';
 import Footer from '../Footer/Footer';
 
@@ -8,6 +9,7 @@ const Marketplace = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   
   const categories = ["All", "Vegetables", "Fruits", "Dairy & Eggs", "Honey & Preserves", "Bakery", "Herbs"];
 
@@ -34,6 +36,12 @@ const Marketplace = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const cartData = JSON.parse(localStorage.getItem('cart') || '[]');
+    setCart(cartData);
+    console.log('Current Cart:', cartData);
+  }, []);
+
   const filteredProducts = products
     .filter(product => 
       (selectedCategory === "All" || product.category === selectedCategory) &&
@@ -54,6 +62,54 @@ const Marketplace = () => {
       }
     });
 
+  const handleAddToCart = (productId) => {
+    // Find the product from our products array
+    const productToAdd = products.find(product => product._id === productId);
+    
+    if (!productToAdd) return;
+
+    // Get existing cart from localStorage or initialize empty array
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if product already exists in cart
+    const existingProductIndex = existingCart.findIndex(item => item._id === productId);
+    
+    if (existingProductIndex !== -1) {
+      // If product exists, increment quantity
+      existingCart[existingProductIndex].quantity = (existingCart[existingProductIndex].quantity || 1) + 1;
+    } else {
+      // If product doesn't exist, add it with quantity 1
+      existingCart.push({
+        ...productToAdd,
+        quantity: 1
+      });
+    }
+    
+    // Save back to localStorage and update state
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+    setCart(existingCart);
+    
+    // Log the updated cart
+    console.log('Updated Cart:', existingCart);
+    console.log('Product added to cart!');
+  }
+
+  const removeFromCart = (productId) => {
+    // Get current cart
+    const currentCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Remove the product
+    const updatedCart = currentCart.filter(item => item._id !== productId);
+    
+    // Save back to localStorage and update state
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(updatedCart);
+    
+    // Log the updated cart
+    console.log('Product removed from cart');
+    console.log('Updated Cart:', updatedCart);
+  }
+
   return (
     <div>
       <NavBar />
@@ -69,7 +125,7 @@ const Marketplace = () => {
             <div className="flex flex-col md:flex-row gap-4">
               {/* Search Bar */}
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-3/4 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <Search className="absolute left-3 top-5 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
                   type="text"
                   placeholder="Search products, farmers, or locations..."
@@ -152,9 +208,32 @@ const Marketplace = () => {
                     {product.location}
                   </p>
                 </div>
+                <div className="flex justify-center">
+                  {cart.some(item => item._id === product._id) ? (
+                    <button 
+                      className='bg-red-600 px-3 py-2.5 mb-3 w-[95%] mx-auto text-white font-medium cursor-pointer border rounded-md'
+                      onClick={() => removeFromCart(product._id)}
+                    >
+                      Remove from Cart
+                    </button>
+                  ) : (
+                    <button 
+                      className='bg-green-600 px-3 py-2.5 mb-3 w-[95%] mx-auto text-white font-medium cursor-pointer border rounded-md'
+                      onClick={() => handleAddToCart(product._id)}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+                </div>
               </div>
             ))}
           </div>
+
+          <NavLink to="/pdf" className="hover:text-green-200">
+              <button className="w-full mt-6 bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors">
+                Got to Cart
+              </button>
+              </NavLink>
 
           {filteredProducts.length === 0 && (
             <div className="text-center py-12">

@@ -6,6 +6,7 @@ const AuthRouter = require('./Routes/AuthRouter');
 const ProductRouter = require('./Routes/ProductRouter');
 const FarmerRouter = require('./Routes/FarmerRouter'); // Import the Farmer Router
 const EmployeeApproval = require('./Routes/EmployeeApproval');
+const predictPriceRoutes = require('./Routes/PredictPrice');
 
 require('dotenv').config();
 require('./Models/db');
@@ -17,8 +18,9 @@ app.use(cors());
 
 app.use('/auth', AuthRouter);
 app.use('/products', ProductRouter);
-app.use('/farmers', FarmerRouter); // Add the Farmer Routes
+app.use('/farmers', FarmerRouter); 
 app.use('/approve', EmployeeApproval);
+app.use('/predict', predictPriceRoutes);  
 
 app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);
